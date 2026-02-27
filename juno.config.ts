@@ -5,7 +5,6 @@ export default defineConfig({
     ids: {
       production: '7vdgm-saaaa-aaaal-asxqq-cai'
     },
-    source: 'build',
-    predeploy: ['npm run build']
+    source: 'build'
   }
 });
