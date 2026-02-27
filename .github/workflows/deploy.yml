@@ -24,3 +24,5 @@ jobs:
       - run: npm run build
 
       - uses: junobuild/juno-action@main
+        with:
+          args: hosting deploy
