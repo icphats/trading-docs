@@ -58,4 +58,4 @@ dfx canister call --ic $SPOT cancel_orders '(vec { <order_ids> })'
 dfx canister call --ic $SPOT withdraw '(#base, <amount>)'
 ```
 
-Candid argument encoding can be verbose. For complex calls (batched orders, LP operations), use `@dfinity/agent` with Node.js. See [Overview](./index) for the agent loop pattern.
+Candid argument encoding can be verbose. For complex calls (batched orders, LP operations), use `@dfinity/agent` with Node.js. See [Overview](./index.md) for the agent loop pattern.
