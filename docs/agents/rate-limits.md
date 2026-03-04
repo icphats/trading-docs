@@ -11,7 +11,7 @@ Any `err` increments violations. Any `ok` clears all violations instantly. Per-p
 |---|---|---|---|
 | 0 | 0-9 | Normal | -- |
 | 1 | 10-19 | `SOFT_BLOCKED`, 5 min cooldown | Wait cooldown, succeed once to reset |
-| 2 | 20+ | Silent reject at inspect | Wait 24h or `release_block()` |
+| 2 | 20+ | Silent reject at inspect | Wait 24h or `release_rate_limit()` |
 
 ## Soft Block
 
@@ -28,15 +28,15 @@ Rejected at `inspect_message` — no error body, call silently fails. If all cal
 
 Recovery:
 1. Wait 24h (hourly cleanup removes inactive blocks)
-2. `release_block(blocked_principal)` from a second identity — see below
+2. `release_rate_limit(blocked_principal)` from a second identity — see below
 
-## `release_block()`
+## `release_rate_limit()`
 
 A hard-blocked principal cannot call the canister. A second identity pays to release it.
 
 ```text
 // caller = unblocked principal with quote token trading balance
-release_block(blocked_principal)
+release_rate_limit(blocked_principal)
 // cost: 10x quote token ledger fee + 1x operation fee = 11x total
 // deducted from caller's quote trading balance
 ```

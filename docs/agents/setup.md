@@ -88,7 +88,7 @@ This is the ICP ledger (`ryjl3-tyaaa-aaaaa-aaaba-cai`). The same `icrc1_balance_
 ## 4. Prior Activity
 
 ```bash
-dfx canister call --ic 3mu3b-xaaaa-aaaal-asd5q-cai get_user_markets '()'
+dfx canister call --ic gx3we-baaaa-aaaab-afaia-cai get_user_markets '()'
 ```
 
 Non-empty result means this principal has traded before.

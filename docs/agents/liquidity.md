@@ -21,7 +21,7 @@ for position in user_data.positions:
     // Reopen centered on current tick
     new_lower = align(pool.tick - range, pool.tick_spacing)
     new_upper = align(pool.tick + range, pool.tick_spacing)
-    add_liquidity(fee_pips, new_lower, new_upper, amt0, amt1)
+    add_liquidity(fee_pips, new_lower, new_upper, amt_base, amt_quote, null, null)
 
   else if position.fees_base > 0 or position.fees_quote > 0:
     collect_fees(position.id)
@@ -37,16 +37,17 @@ Read `get_routing_state().pools[].tick_spacing` for each active pool — don't c
 
 ```
 result = add_liquidity(
-  fee_pips:     500,          // 0.05% pool
-  tick_lower:   -230_500,     // must be multiple of tick_spacing (10)
-  tick_upper:   -229_500,     // must be multiple of tick_spacing (10)
-  amount0:      10_000_000,   // desired base amount
-  amount1:      500_000_000,  // desired quote amount
-  initial_tick: null          // only for first LP in pool
+  fee_pips:       500,          // 0.05% pool
+  tick_lower:     -230_500,     // must be multiple of tick_spacing (10)
+  tick_upper:     -229_500,     // must be multiple of tick_spacing (10)
+  amt_base:       10_000_000,   // desired base amount
+  amt_quote:      500_000_000,  // desired quote amount
+  initial_tick:   null,         // only for first LP in pool
+  lock_until_ms:  null          // optional lock timestamp (one-way ratchet)
 )
-// result.position_id  → use for all future operations
-// result.actual_amt0  → base actually deposited (≤ amount0)
-// result.actual_amt1  → quote actually deposited (≤ amount1)
+// result.position_id      → use for all future operations
+// result.actual_amt_base  → base actually deposited (≤ amt_base)
+// result.actual_amt_quote → quote actually deposited (≤ amt_quote)
 ```
 
 The canister computes actual amounts from the current pool price and your tick range. One side may be zero if the current tick is outside your range. Excess is credited back to trading balance.
@@ -59,13 +60,13 @@ The first liquidity provider for a pool **must** provide `initial_tick` to set t
 
 ```
 result = increase_liquidity(
-  position_id:  42,
-  amount0:      5_000_000,
-  amount1:      250_000_000
+  position_id:       42,
+  amt_base_desired:  5_000_000,
+  amt_quote_desired: 250_000_000
 )
-// result.liquidity_delta → liquidity units added
-// result.actual_amt0     → base actually deposited
-// result.actual_amt1     → quote actually deposited
+// result.liquidity_delta    → liquidity units added
+// result.actual_amt_base    → base actually deposited
+// result.actual_amt_quote   → quote actually deposited
 ```
 
 Same excess-back behavior as `add_liquidity`. Fees are **not** auto-collected — they accumulate on the position for explicit `collect_fees`.
@@ -77,8 +78,8 @@ result = decrease_liquidity(
   position_id:    42,
   liquidity_delta: 1_000_000_000   // liquidity units to remove
 )
-// result.amount0  → base tokens returned to trading balance
-// result.amount1  → quote tokens returned to trading balance
+// result.amount_base  → base tokens returned to trading balance
+// result.amount_quote → quote tokens returned to trading balance
 ```
 
 **Full withdrawal** (`liquidity_delta >= position.liquidity`): returns principal + all accumulated fees, deletes the position.
@@ -93,8 +94,8 @@ result = decrease_liquidity(
 
 ```
 result = collect_fees(position_id: 42)
-// result.collected_amt0 → base fees credited to trading balance
-// result.collected_amt1 → quote fees credited to trading balance
+// result.collected_amt_base  → base fees credited to trading balance
+// result.collected_amt_quote → quote fees credited to trading balance
 ```
 
 Drains all accumulated fees (including any `tokens_owed` stored from prior increases/decreases).

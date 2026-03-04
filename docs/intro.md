@@ -17,8 +17,8 @@ Each spot market is a single canister with a base/quote token pair. The canister
 
 ## Authentication
 
-- **Public queries** — no authentication: `get_routing_state`, `get_current_tick`, `quote_order`, `get_market_depth`, `get_pool`, `get_pools_overview`, `get_diagnostics`, `get_balance_sheet`
-- **User queries** — caller's principal: `get_user`, `get_versions`, `get_user_orders_live`, `get_user_triggers_live`, `get_user_positions`, `get_user_activity`
+- **Public queries** — no authentication: `get_routing_state`, `get_reference_tick`, `quote_order`, `get_market_depth`, `get_pool`, `get_pools_overview`, `get_balance_sheet`
+- **User queries** — caller's principal: `get_user`, `get_versions`, `get_user_activity`
 - **Mutations** — caller's principal: all `deposit`, `withdraw`, `create_*`, `cancel_*`, `update_*`, etc.
 
 ## Token Decimals

@@ -22,8 +22,8 @@ Cancels execute first, then pool swaps, then book orders through the cascade.
 ```
 // Book-only limit orders
 create_orders([], [
-    { side: #buy,  limit_tick: -230_000, input_amount: 500_000_000, ioc: false },
-    { side: #sell, limit_tick: -229_800, input_amount: 10_000_000,  ioc: false },
+    { side: #buy,  limit_tick: -230_000, input_amount: 500_000_000, immediate_or_cancel: false },
+    { side: #sell, limit_tick: -229_800, input_amount: 10_000_000,  immediate_or_cancel: false },
 ], [])
 
 // Routed order (book + pools) via quote
@@ -95,7 +95,7 @@ create_triggers([], [{
   limit_tick:   -231_500,
   input_amount: 10_000_000,
   reference_tick: -230_000,
-  ioc: true,
+  immediate_or_cancel: true,
 }])
 ```
 
@@ -205,7 +205,7 @@ PoolSwapSpec {
   side: #buy | #sell
   input_amount: Nat               // native decimals
   limit_tick: Tick                 // slippage protection
-  fee_pips: Nat32                 // pool tier: 100, 500, 3000, 10000
+  fee_pips: Nat32                 // pool tier: multiples of 100 (100–10000)
 }
 
 TriggerSpec {

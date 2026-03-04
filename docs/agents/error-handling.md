@@ -48,7 +48,7 @@ Match on `code` for programmatic handling. Use `metadata` for structured context
 | `TICK_OUT_OF_BOUNDS` | `tick`, `min`, `max` | Tick outside MIN_TICK..MAX_TICK |
 | `TICK_NOT_ALIGNED` | `tick`, `tick_spacing` | Tick not multiple of spacing |
 | `INVALID_TICK_RANGE` | -- | tickLower \>= tickUpper |
-| `INVALID_FEE_TIER` | -- | fee\_pips not in 100, 500, 3000 |
+| `INVALID_FEE_TIER` | -- | fee\_pips not a valid tier (multiples of 100, 100–10000) |
 | `AMOUNT_TOO_SMALL` | `required_usd`, `provided_usd` | Below min USD threshold |
 | `AMOUNT_TOO_LARGE` | -- | Exceeds 2\^128-1 |
 | `ZERO_AMOUNT` | -- | Amount is 0 |
